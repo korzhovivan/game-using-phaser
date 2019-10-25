@@ -46,6 +46,9 @@ class InputManager {
         const currentKey = this.keys.find(({ name }) => name === key);
         updatePlayerPosition(currentKey.velocityX, currentKey.velocityY);
       }
+      if (this.bindings[key].isUp()) {
+        const currentKey = this.keys.find(({ name }) => name === key);
+      }
     });
   }
 }
