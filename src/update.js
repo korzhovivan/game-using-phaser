@@ -1,1 +1,5 @@
-export default function() {}
+import { handleUpdate } from "./inputManager";
+
+export default function() {
+  handleUpdate();
+}

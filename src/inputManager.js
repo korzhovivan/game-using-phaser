@@ -1,29 +1,56 @@
 import Phaser from "phaser";
+import { updatePlayerPosition } from "./player";
+
+const DIRECTION_VELOCITY = 10;
 
 class InputManager {
   constructor() {
     this.keys = [
-      { name: "W", value: Phaser.Input.KeyBoard.KeyCodes.W },
-      { name: "A", value: Phaser.Input.KeyBoard.KeyCodes.A },
-      { name: "S", value: Phaser.Input.KeyBoard.KeyCodes.S },
-      { name: "D", value: Phaser.Input.KeyBoard.KeyCodes.D }
+      {
+        name: "W",
+        value: Phaser.Input.Keyboard.KeyCodes.W,
+        velocityX: 0,
+        velocityY: -DIRECTION_VELOCITY
+      },
+      {
+        name: "A",
+        value: Phaser.Input.Keyboard.KeyCodes.A,
+        velocityX: -DIRECTION_VELOCITY,
+        velocityY: 0
+      },
+      {
+        name: "S",
+        value: Phaser.Input.Keyboard.KeyCodes.S,
+        velocityX: 0,
+        velocityY: DIRECTION_VELOCITY
+      },
+      {
+        name: "D",
+        value: Phaser.Input.Keyboard.KeyCodes.D,
+        velocityX: DIRECTION_VELOCITY,
+        velocityY: 0
+      }
     ];
   }
 
   setupListeners(game) {
     this.bindings = {};
     this.keys.forEach(({ name, value }) => {
-      this.bindings[name] = game.input.keyBoard.addKey(value);
+      this.bindings[name] = game.input.keyboard.addKey(value);
     });
   }
 
-  handleUpdate() {}
+  handleUpdate() {
+    Object.keys(this.bindings).forEach(key => {
+      if (this.bindings[key].isDown) {
+        const currentKey = this.keys.find(({ name }) => name === key);
+        updatePlayerPosition(currentKey.velocityX, currentKey.velocityY);
+      }
+    });
+  }
 }
-const InputManagerInstance = new InputManager();
+const inputManagerInstance = new InputManager();
 
-export const setup = game => {
-  InputManagerInstance.setupListeners(game);
-};
-export const handleUpdate = () => {
-  InputManagerInstance.handleUpdate();
-};
+export const setupListeners = game => inputManagerInstance.setupListeners(game);
+
+export const handleUpdate = () => inputManagerInstance.handleUpdate();
