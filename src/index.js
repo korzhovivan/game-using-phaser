@@ -1,6 +1,7 @@
 import Phaser from "phaser";
 import create from "./createScene";
 import update from "./update";
+import preload from "./preload";
 
 const engineConfig = {
   type: Phaser.AUTO,
@@ -13,6 +14,7 @@ const engineConfig = {
     }
   },
   scene: {
+    preload,
     create,
     update
   }

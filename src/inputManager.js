@@ -1,5 +1,5 @@
 import Phaser from "phaser";
-import { updatePlayerPosition } from "./player";
+import { updatePlayerPosition, shoot } from "./player";
 
 const DIRECTION_VELOCITY = 10;
 
@@ -35,9 +35,12 @@ class InputManager {
 
   setupListeners(game) {
     this.bindings = {};
+    // handle keyboard input
     this.keys.forEach(({ name, value }) => {
       this.bindings[name] = game.input.keyboard.addKey(value);
     });
+    //handle mouse clicks
+    game.input.on("pointerdown", shoot, this);
   }
 
   handleUpdate() {
@@ -45,9 +48,6 @@ class InputManager {
       if (this.bindings[key].isDown) {
         const currentKey = this.keys.find(({ name }) => name === key);
         updatePlayerPosition(currentKey.velocityX, currentKey.velocityY);
-      }
-      if (this.bindings[key].isUp()) {
-        const currentKey = this.keys.find(({ name }) => name === key);
       }
     });
   }
