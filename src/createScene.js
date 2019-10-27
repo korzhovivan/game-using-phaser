@@ -1,7 +1,9 @@
 import { createPlayer } from "./player";
 import { setupListeners } from "./inputManager";
+import { createEnemy } from "./enemy";
 
 export default function() {
-  createPlayer(this);
+  const enemy = createEnemy(this);
   setupListeners(this);
+  createPlayer({ scene: this, enemy: enemy });
 }
