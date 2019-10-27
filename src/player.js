@@ -34,12 +34,13 @@ export const updatePlayerPosition = (velocityX, velocityY) => {
 
 export const shoot = ({ x, y }) => {
   const { x: playerX, y: playerY } = player;
-  shootGun({
+  let kill = shootGun({
     fromX: playerX,
     fromY: playerY,
     toX: x,
     toY: y,
     enemy: globalEnemy
   });
+
   globalEnemy = createEnemy(globalScene);
 };
